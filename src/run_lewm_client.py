@@ -263,6 +263,7 @@ def run_inference(
             # Planner embeds obs with vit in its pipeline
             active_goal_obs = chop_goal_obs if stage == "CHOP" else goal_obs
             planning_start = time.perf_counter()
+            print(f"Started planning at {planning_start}")
             action_sequence, planning_losses, distribution_params = planner.planner(
                 lewm_model, obs, active_goal_obs, cam_mean, cam_std, cfg.sigreg.lambd, warm_start=warm_start
             )
@@ -434,13 +435,13 @@ if __name__ == "__main__":
 
     # model_path=repo_path("artifacts", "final_models", "best_model_custom_vit.pt"),
     model_path = repo_path("artifacts", "final_models", "best_model_resnet_invdyn.pt")
-    env_name = os.environ.get("LEWM_ENV", "seed_world")
+    env_name = os.environ.get("LEWM_ENV", "discrimination_test")
 
     if args.evals:
         run_evals(model_path, env_name, n_episodes=args.episodes)
     else:
         run_inference(
             model_path=model_path,
-            use_wandb=True,
+            use_wandb=False,#True,
             env_name=env_name,
         )
