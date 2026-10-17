@@ -193,7 +193,7 @@ def run_inference(
     last_distribution_params = None
     nav_mse = float("inf")
     chop_done_ct = 0
-    chop_stage_steps = 0
+    chop_stage_count = 0
     # Neutral action so Malmo does not keep moving during long CEM replans.
     stop_action = np.zeros(cfg.action_dim, dtype=np.float64)
 
@@ -227,8 +227,8 @@ def run_inference(
         obs = process_frame_pixels(transform, frame)
 
         # Switch to CHOP when the frame reaches the MSE threshold
-        # if stage == "NAV" and distance_to_tree < cfg.planner.success_distance:
-        if stage == "NAV" and F.mse_loss(enc(obs), nav_goal_z).item() < cfg.planner.nav_done_mse:
+        if stage == "NAV" and distance_to_tree < cfg.planner.success_distance:
+        # if stage == "NAV" and F.mse_loss(enc(obs), nav_goal_z).item() < cfg.planner.nav_done_mse:
             stage = "CHOP"
             action_queue = []
             last_distribution_params = None
@@ -245,11 +245,8 @@ def run_inference(
             if chop_stage_count >= cfg.planner.chop_done_patience:
                 stage = "SUCCESS"
         if stage == "SUCCESS":
-<<<<<<< HEAD:scripts/run_lewm_client.py
-=======
             print(f"stage-SUCCESS at step {step}")
             # stage = "NAV"
->>>>>>> 573b550a30461d53fd372ed05af023e207087cf1:src/run_lewm_client.py
             break
 
         # Plan when action queue is empty

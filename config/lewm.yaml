@@ -94,7 +94,6 @@ planner:
   max_steps: 200
   nav_done_mse: 1.0 # mse threshold
   success_distance: 4.0 # minecraft's block interaction threshold is 4.5 blocks
-  nav_done_mse: 1.0
   chop_done_mse: 0.05 # latent MSE threshold to determine if chopping is complete
   chop_done_patience: 3 # consecutive low-MSE steps before chop is complete
   chop_max_steps: 15 # always advance after this number of chop steps
