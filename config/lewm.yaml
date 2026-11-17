@@ -96,10 +96,10 @@ planner:
   planning_horizon: 8
   max_steps: 200
   success_threshold: 0.5 # success threshold for each goal
-  success_distance: 4.0 # minecraft's block interaction threshold is 4.5 blocks
+  success_distance: 8.0 # minecraft's block interaction threshold is 4.5 blocks
   nav_done_mse: 1.0
   chop_done_mse: 0.05 # latent MSE threshold to determine if chopping is complete
-  chop_done_patience: 3 # consecutive low-MSE steps before chop is complete
+  chop_done_patience: 8 # consecutive low-MSE steps before chop is complete
   chop_max_steps: 15 # always advance after this number of chop steps
 
 # == Malmo env/task settings ==

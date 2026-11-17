@@ -210,8 +210,8 @@ def run_inference(
         obs = process_frame_pixels(transform, frame)
 
         # Switch stage from nav to chop when close enough to the current tree target
-        # if stage == "NAV" and distance_to_tree < cfg.planner.success_distance:
-        if stage == "NAV" and F.mse_loss(enc(obs), goal_z).item() < cfg.planner.nav_done_mse:
+        if stage == "NAV" and distance_to_tree < cfg.planner.success_distance:
+        # if stage == "NAV" and F.mse_loss(enc(obs), goal_z).item() < cfg.planner.nav_done_mse:
             stage = "CHOP"
             action_queue = []
             last_distribution_params = None
@@ -434,13 +434,13 @@ if __name__ == "__main__":
 
     # model_path=repo_path("artifacts", "final_models", "best_model_custom_vit.pt"),
     model_path = repo_path("artifacts", "final_models", "best_model_resnet_invdyn.pt")
-    env_name = os.environ.get("LEWM_ENV", "seed_world")
+    env_name = os.environ.get("LEWM_ENV", "single_tree_navigation")
 
     if args.evals:
         run_evals(model_path, env_name, n_episodes=args.episodes)
     else:
         run_inference(
             model_path=model_path,
-            use_wandb=True,
+            use_wandb=False,
             env_name=env_name,
         )
